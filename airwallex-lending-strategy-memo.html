@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Airwallex Lending — Sequencing Strategy Memo</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F5F4EF;--ink:#1C2321;--ink-soft:#5B655F;--pine:#2F5C48;--pine-soft:#E7EFE9;--line:#DAD6CB;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;padding:40px 20px 70px;line-height:1.6;}
+.wrap{max-width:680px;margin:0 auto;}
+a.back{font-size:12.5px;color:var(--pine);text-decoration:none;}
+h1{font-family:'Source Serif 4',serif;font-size:22px;margin:14px 0 2px;}
+h2{font-size:16px;margin:26px 0 8px;color:var(--pine);}
+p{font-size:14px;margin:0 0 10px;}
+.note{font-size:12.5px;color:var(--ink-soft);font-style:italic;background:var(--pine-soft);border-radius:8px;padding:10px 14px;margin:14px 0;}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0 4px;}
+th{text-align:left;background:var(--pine-soft);padding:8px 10px;font-size:11.5px;}
+td{padding:8px 10px;border-bottom:1px solid var(--line);}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0;}
+.foot{font-size:12px;color:var(--ink-soft);}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Back to case studies</a>
+<h1>Airwallex Lending: A Sequencing Strategy for Embedded and First-Party Credit</h1>
+<p class="foot">Strategy memo — Senior/Staff Product Manager, Lending</p>
+<div class="note">Built from the job posting and public information only — no visibility into Airwallex's actual roadmap, risk appetite, or capital structure. The value here is the reasoning, not the specific numbers, which are directional.</div>
+
+<h2>The strategic question</h2>
+<p>Airwallex is building credit capability across two models — <b>embedded lending</b> (financing distributed through partner platforms) and <b>first-party lending</b> (credit issued directly to Airwallex's own account holders). The question isn't which is better — it's <b>which to prove out first</b>, and why the sequencing itself is the strategy.</p>
+
+<h2>The bet: first-party before embedded</h2>
+<p>Sequence first-party first, using it as the proving ground for the underwriting and risk infrastructure embedded lending will later depend on. First-party needs no external distribution deal to start — Airwallex already owns the transaction data needed to underwrite off live cash-flow signal. Embedded lending inherits first-party's risk models, not the reverse: building embedded first means building risk infrastructure and a partner integration simultaneously, with no proven baseline for either. Compliance surface is also smaller to start — one or two markets vs. every partner platform's jurisdictional footprint.</p>
+<p>This mirrors how the two prototypes in this portfolio relate: FlexCapital (alternative-data eligibility, transparent pricing, bounded revenue-share repayment) is the proving ground; Capital Intelligence is what the customer-facing layer could look like once that infrastructure is validated and ready to scale across both surfaces.</p>
+
+<h2>Trade-offs this forces — and who owns the call</h2>
+<table><tr><th>Trade-off</th><th>Owner</th></tr>
+<tr><td>Speed to market vs. balance-sheet exposure (own balance sheet vs. warehouse/forward-flow funding)</td><td>Finance/Treasury + Capital partners</td></tr>
+<tr><td>Growth vs. portfolio quality (looser eligibility vs. default-rate discipline)</td><td>Credit Risk</td></tr>
+<tr><td>Global consistency vs. market-specific modularity</td><td>Legal/Compliance, by market</td></tr>
+<tr><td>Build vs. partner on underwriting</td><td>Risk + Data/ML, with Commercial input</td></tr></table>
+
+<h2>Indicative multi-quarter sequencing</h2>
+<table><tr><th>Horizon</th><th>Focus</th><th>Proof point</th></tr>
+<tr><td>Q1–Q2</td><td>First-party pilot, 1–2 markets, alt-data underwriting, capped volume</td><td>Default rate/repayment behavior vs. risk appetite</td></tr>
+<tr><td>Q3–Q4</td><td>Automate underwriting; shift funding to capital-partner structure; expand 2–3 markets</td><td>Cost of capital vs. yield spread at scale</td></tr>
+<tr><td>Yr 2 H1</td><td>Embedded pilot, 1–2 partners, lowest-complexity market, reused risk core</td><td>Embedded vs. first-party unit economics</td></tr>
+<tr><td>Yr 2 H2</td><td>Scale embedded; shared decisioning core, market-specific policy layered on top</td><td>Portfolio-level risk-adjusted return</td></tr></table>
+
+<h2>What "success" looks like</h2>
+<p>Portfolio-level, not feature adoption: risk-adjusted portfolio yield net of losses; default/delinquency rate against stated risk appetite; cost of capital vs. blended yield as funding sources shift; how much of the first-party risk core is actually reused (not rebuilt) when embedded launches; regulatory/market coverage achieved without proportional compliance headcount growth.</p>
+<h2>Where this leaves the two prototypes</h2>
+<p>Neither is the strategy — they're proof-of-concept artifacts for pieces of it. FlexCapital demonstrates the underwriting and risk-safeguard thinking this sequencing depends on in Q1–Q2. Capital Intelligence now demonstrates the Year 2 H2 idea directly: the same underwriting logic, toggled between a first-party view and a partner-embedded view, with the numbers left editable so the reasoning can be tested rather than taken on faith — a small-scale illustration of the reuse this roadmap depends on, not just an argument for it.</p>
+</div></body></html>

@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Capital Intelligence — Airwallex Concept Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F5F9; --card:#FFFFFF; --ink:#141826; --ink-soft:#6B7188; --line:#E4E6F0;
+  --accent:#5B4FE9; --accent-soft:#EEEBFF; --navy:#10142A; --navy-soft:#1B2140;
+  --green:#1E8E5A; --green-soft:#E6F5EC; --amber:#B97B12; --amber-soft:#FBF0DC; --red:#C23B3B;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px); box-sizing:border-box;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#0E1120; --card:#171B30; --ink:#EDEEF5; --ink-soft:#9095AC; --line:#2A2F49; --accent-soft:#232253; --green-soft:#12291D; --amber-soft:#2E230F; }
+}
+body.embedded{ --accent:#0F8C7A; --accent-soft:#E4F5F2; --navy:#0B2B26; --navy-soft:#123B34; }
+*{box-sizing:border-box;}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;}
+.app{display:flex;min-height:100vh;}
+.sidebar{width:230px;flex-shrink:0;background:var(--navy);color:#C7CAE6;padding:22px 16px;position:sticky;top:0;height:100vh;overflow-y:auto;}
+.brand{font-weight:700;color:#fff;font-size:16px;margin-bottom:2px;}
+.brand span{color:#9C94FF;}
+body.embedded .brand span{color:#6FE0CB;}
+.pwrd{font-size:10px;color:#8489AA;margin-bottom:10px;display:none;}
+body.embedded .pwrd{display:block;}
+.tagline{font-size:11.5px;color:#8489AA;margin-bottom:14px;line-height:1.4;}
+.badge-proto{display:inline-block;font-size:10.5px;font-weight:600;background:#2B2E5C;color:#B7B4FF;padding:4px 9px;border-radius:100px;margin-bottom:16px;}
+body.embedded .badge-proto{background:#123B34;color:#8CE8D6;}
+.modeswitch{display:flex;gap:4px;background:#1B2140;border-radius:8px;padding:3px;margin-bottom:18px;}
+body.embedded .modeswitch{background:#123B34;}
+.modeswitch button{all:unset;flex:1;text-align:center;font-size:11px;padding:6px 4px;border-radius:6px;cursor:pointer;color:#9095AC;}
+.modeswitch button.active{background:var(--accent);color:#fff;font-weight:600;}
+.navlist{display:flex;flex-direction:column;gap:2px;}
+.navlist button{all:unset;cursor:pointer;padding:10px 12px;border-radius:8px;font-size:13.5px;color:#B7BAD6;transition:background .15s;}
+.navlist button:hover{background:var(--navy-soft);}
+.navlist button.active{background:var(--accent);color:#fff;font-weight:600;}
+main{flex:1;padding:26px 30px 60px;max-width:980px;}
+.screen{display:none;}
+.screen.active{display:block;animation:rise .3s ease;}
+@keyframes rise{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+h1{font-size:23px;font-weight:700;margin:0 0 4px;letter-spacing:-0.01em;}
+.lede{color:var(--ink-soft);font-size:14px;margin:0 0 16px;}
+.embedbanner{display:none;background:var(--accent-soft);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-size:12.5px;color:var(--ink);margin-bottom:18px;}
+body.embedded .embedbanner{display:block;}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:20px;}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;}
+.kpi .lbl{font-size:11.5px;color:var(--ink-soft);margin-bottom:6px;}
+.kpi .num{font-size:19px;font-weight:700;}
+.alert{border-radius:12px;padding:18px 20px;margin-bottom:22px;border:1px solid #E9C77E;background:var(--amber-soft);}
+.alert.ok{border-color:#8FCBA8;background:var(--green-soft);}
+.alert h3{margin:0 0 6px;font-size:15px;color:var(--amber);}
+.alert.ok h3{color:var(--green);}
+.alert p{margin:0 0 14px;font-size:13.5px;color:var(--ink);opacity:.85;}
+.btn{border:none;border-radius:8px;padding:10px 16px;font-size:13.5px;font-weight:600;font-family:'Inter';cursor:pointer;transition:opacity .15s;}
+.btn:hover{opacity:.88;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-ghost{background:transparent;color:var(--accent);border:1px solid var(--accent);}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:16px;}
+.card h3{margin:0 0 12px;font-size:14.5px;}
+svg text{font-family:'Inter';fill:var(--ink-soft);font-size:10px;}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--ink-soft);margin-top:6px;}
+.legend span{display:inline-flex;align-items:center;gap:6px;}
+.dot{width:9px;height:9px;border-radius:2px;display:inline-block;}
+.inputgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+@media(max-width:820px){.inputgrid{grid-template-columns:repeat(2,1fr);}}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:11px;color:var(--ink-soft);}
+.field input{padding:8px 9px;border-radius:7px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:'Inter';font-size:13px;}
+.drivers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+@media(max-width:700px){.drivers{grid-template-columns:1fr;}}
+.driver{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;}
+.driver .row1{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;}
+.bar-track{height:6px;background:var(--line);border-radius:100px;overflow:hidden;}
+.bar-track i{display:block;height:100%;background:var(--accent);border-radius:100px;}
+.note{font-size:12.5px;color:var(--ink-soft);background:var(--accent-soft);border-left:3px solid var(--accent);padding:12px 14px;border-radius:6px;}
+.tag{font-size:10px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--accent);}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+@media(max-width:860px){.opts{grid-template-columns:1fr;}}
+.opt{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;position:relative;}
+.opt.rec{border-color:var(--accent);}
+.opt .badge{position:absolute;top:-10px;left:16px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px;}
+.opt h4{margin:8px 0 2px;font-size:14.5px;}
+.opt .amt{font-size:21px;font-weight:700;margin:4px 0;}
+.opt p.desc{font-size:12.5px;color:var(--ink-soft);min-height:44px;}
+.opt .row{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;border-top:1px solid var(--line);}
+.illus{font-size:10.5px;color:var(--ink-soft);font-style:italic;margin-top:8px;}
+.simgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;}
+@media(max-width:860px){.simgrid{grid-template-columns:1fr;}}
+select{width:100%;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:'Inter';font-size:13.5px;margin-bottom:14px;}
+input[type=range]{width:100%;accent-color:var(--accent);}
+.amt-display{font-size:26px;font-weight:700;margin:6px 0 14px;}
+.metric-row{display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);}
+.metric-row:last-child{border-bottom:none;}
+.metric-row .v.pos{color:var(--green);}
+.metric-row .v.warn{color:var(--amber);}
+.chatbox{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--card);}
+.chatlog{max-height:220px;overflow-y:auto;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;}
+.msg{font-size:12.5px;padding:8px 10px;border-radius:8px;max-width:90%;}
+.msg.q{background:var(--accent-soft);align-self:flex-end;color:var(--ink);}
+.msg.a{background:var(--bg);align-self:flex-start;border:1px solid var(--line);}
+.suggest{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.suggest button{all:unset;cursor:pointer;font-size:11.5px;border:1px solid var(--line);padding:6px 10px;border-radius:100px;color:var(--ink-soft);}
+.suggest button:hover{border-color:var(--accent);color:var(--accent);}
+.chatinput{display:flex;gap:8px;}
+.chatinput input{flex:1;padding:9px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:'Inter';font-size:13px;}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(10,12,25,.55);align-items:center;justify-content:center;z-index:50;padding:20px;}
+.modal-bg.show{display:flex;}
+.modal{background:var(--card);border-radius:14px;max-width:420px;width:100%;padding:24px;}
+.modal h3{margin:0 0 4px;}
+.disc{font-size:11.5px;color:var(--ink-soft);background:var(--amber-soft);border-radius:8px;padding:10px 12px;margin:14px 0;}
+.assump-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+@media(max-width:700px){.assump-grid{grid-template-columns:1fr;}}
+.principle{font-size:13.5px;font-style:italic;border-left:3px solid var(--accent);padding:8px 14px;margin-bottom:8px;}
+.prodlist{margin:0;padding-left:18px;font-size:13px;color:var(--ink-soft);}
+.prodlist li{margin-bottom:4px;}
+@media(max-width:780px){
+  .app{flex-direction:column;} .sidebar{width:100%;height:auto;position:sticky;top:0;z-index:10;padding:14px 16px;}
+  .navlist{flex-direction:row;overflow-x:auto;gap:6px;} .navlist button{white-space:nowrap;}
+  main{padding:20px 16px 50px;} .kpis{grid-template-columns:repeat(2,1fr);} .inputgrid{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand" id="brandLbl">Capital <span>Intelligence</span></div>
+    <div class="pwrd">Embedded in ShipHub Commerce • Powered by Airwallex</div>
+    <div class="tagline" id="taglineLbl">Know when you'll need capital, how much, and which option fits.</div>
+    <div class="badge-proto">Concept Prototype • Demo Data • Not a Credit Decision</div>
+    <div class="modeswitch">
+      <button class="active" id="btnFP" onclick="setMode('firstparty')">First-party</button>
+      <button id="btnEM" onclick="setMode('embedded')">Embedded</button>
+    </div>
+    <nav class="navlist">
+      <button class="active" onclick="go(0)">Overview</button>
+      <button onclick="go(1)">Financing Options</button>
+      <button onclick="go(2)">Scenario Simulator</button>
+      <button onclick="go(3)">Assumptions</button>
+    </nav>
+  </aside>
+
+  <main>
+    <!-- OVERVIEW -->
+    <section class="screen active" id="s0">
+      <h1 id="greetLbl">Good afternoon, Northstar Commerce</h1>
+      <p class="lede">Here's your cash-flow outlook and upcoming funding needs.</p>
+      <div class="embedbanner">Northstar Commerce is viewing this inside ShipHub Commerce, where they manage orders and invoicing. No separate Airwallex login required — figures below are pulled from their connected ShipHub data.</div>
+
+      <div class="card">
+        <h3>Your numbers <span class="tag" style="float:right;">Editable — try your own scenario</span></h3>
+        <div class="inputgrid">
+          <div class="field"><label>Available cash</label><input type="number" id="in_cash" value="82400" oninput="recalcAll()"></div>
+          <div class="field"><label>Inflows — next 42 days</label><input type="number" id="in_inflow" value="95200" oninput="recalcAll()"></div>
+          <div class="field"><label>Outflows — next 42 days</label><input type="number" id="in_outflow" value="121400" oninput="recalcAll()"></div>
+          <div class="field"><label>Target cash buffer</label><input type="number" id="in_buffer" value="60000" oninput="recalcAll()"></div>
+          <div class="field"><label>Supplier payments</label><input type="number" id="in_supplier" value="50000" oninput="recalcAll()"></div>
+          <div class="field"><label>Payroll & contractors</label><input type="number" id="in_payroll" value="22000" oninput="recalcAll()"></div>
+          <div class="field"><label>Operating expenses</label><input type="number" id="in_opex" value="18000" oninput="recalcAll()"></div>
+          <div class="field"><label>Customer invoices pending</label><input type="number" id="in_invoices" value="68000" oninput="recalcAll()"></div>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><div class="lbl">Available cash</div><div class="num" id="kAvail">$82.4K</div></div>
+        <div class="kpi"><div class="lbl">Inflows — 42 days</div><div class="num" id="kIn">$95.2K</div></div>
+        <div class="kpi"><div class="lbl">Outflows — 42 days</div><div class="num" id="kOut">$121.4K</div></div>
+        <div class="kpi"><div class="lbl">Projected min. cash</div><div class="num" id="kMin" style="color:var(--red)">$42.4K</div></div>
+        <div class="kpi"><div class="lbl">Target buffer</div><div class="num" id="kBuf">$60K</div></div>
+      </div>
+      <div class="alert" id="alertBox">
+        <h3 id="alertH">Potential cash-flow pressure in 28 days</h3>
+        <p id="alertP">Your forecast dips approximately $17.6K below your target cash buffer. The largest driver is a cluster of supplier payments occurring before several customer invoices are expected to settle.</p>
+        <button class="btn btn-primary" onclick="go(1)">Explore funding options →</button>
+        <button class="btn btn-ghost" onclick="go(2)" style="margin-left:8px;">Run scenario</button>
+      </div>
+      <div class="card">
+        <h3>Cash-flow forecast <span class="tag" id="chartTag" style="float:right;"></span></h3>
+        <svg id="chart" viewBox="0 0 600 220" width="100%" height="220"></svg>
+        <div class="legend">
+          <span><i class="dot" style="background:var(--red)"></i>Forecast</span>
+          <span><i class="dot" style="background:var(--accent)"></i>With financing</span>
+          <span><i class="dot" style="background:var(--ink-soft)"></i>Target buffer</span>
+        </div>
+      </div>
+      <h1 style="font-size:18px;margin-top:26px;">Why your cash position is tightening</h1>
+      <div class="drivers" id="driversBox"></div>
+      <div class="note" id="insightNote"><span class="tag">Illustrative product insight</span><br>Your business appears to have a temporary working-capital timing gap rather than a persistent cash deficit.</div>
+    </section>
+
+    <!-- FINANCING OPTIONS -->
+    <section class="screen" id="s1">
+      <h1>Financing options for this cash-flow event</h1>
+      <p class="lede" id="finLede">Based on your current forecast, these options can be evaluated against your expected cash-flow timing.</p>
+      <div class="opts">
+        <div class="opt rec"><span class="badge">Recommended fit</span>
+          <h4>Invoice Financing</h4><div class="amt" id="opt1amt">Up to $54.4K</div>
+          <p class="desc">Access working capital against eligible receivables while waiting for customers to pay.</p>
+          <div class="row"><span>Basis</span><span id="opt1basis">80% of $68K eligible</span></div>
+          <div class="row"><span>Illustrative fee</span><span>2.2%</span></div>
+          <div class="row"><span>Repayment</span><span>When invoices settle</span></div>
+          <div class="row"><span>Best for</span><span>Receivables timing gap</span></div>
+          <button class="btn btn-primary" style="width:100%;margin-top:12px;" onclick="simulateFrom('invoice')">Simulate this</button>
+          <div class="illus">Illustrative — not actual Airwallex terms.</div>
+        </div>
+        <div class="opt">
+          <h4>Airwallex Credit Line</h4><div class="amt">Up to $75K</div>
+          <p class="desc">Flexible liquidity that can be drawn as expenses arise.</p>
+          <div class="row"><span>Illustrative cost</span><span>1.8% / month</span></div>
+          <div class="row"><span>Example draw</span><span id="opt2draw">$40K</span></div>
+          <div class="row"><span>Best for</span><span>Variable liquidity needs</span></div>
+          <div class="row"><span>&nbsp;</span><span>&nbsp;</span></div>
+          <button class="btn btn-primary" style="width:100%;margin-top:12px;" onclick="simulateFrom('credit')">Simulate this</button>
+          <div class="illus">Illustrative — not actual Airwallex terms.</div>
+        </div>
+        <div class="opt">
+          <h4>Term Loan</h4><div class="amt" id="opt3amt">$50K example</div>
+          <p class="desc">Fixed financing amount with scheduled repayments.</p>
+          <div class="row"><span>Illustrative term</span><span>12 months</span></div>
+          <div class="row"><span>Illustrative payment</span><span id="opt3pay">$4.5K / mo</span></div>
+          <div class="row"><span>Best for</span><span>Planned, longer investments</span></div>
+          <div class="row"><span>&nbsp;</span><span>&nbsp;</span></div>
+          <button class="btn btn-primary" style="width:100%;margin-top:12px;" onclick="simulateFrom('term')">Simulate this</button>
+          <div class="illus">Illustrative — not actual Airwallex terms.</div>
+        </div>
+      </div>
+      <div class="embedbanner" style="margin-top:16px;">In an embedded flow, this comparison would sit inside ShipHub Commerce's own invoicing screen, with any partner referral economics disclosed separately from the customer's cost of capital.</div>
+    </section>
+
+    <!-- SIMULATOR -->
+    <section class="screen" id="s2">
+      <h1>See what borrowing could do to your cash position</h1>
+      <p class="lede">Adjust the amount and financing type to explore trade-offs.</p>
+      <div class="simgrid">
+        <div>
+          <select id="ftype" onchange="recalcSim()">
+            <option value="invoice">Invoice financing</option>
+            <option value="credit">Credit line</option>
+            <option value="term">Term loan</option>
+          </select>
+          <div class="amt-display" id="amtDisplay">$40K</div>
+          <input type="range" id="amtSlider" min="0" max="75000" step="1000" value="40000" oninput="recalcSim()">
+          <div class="card" style="margin-top:16px;">
+            <div class="metric-row"><span>Projected min. cash</span><span class="v" id="mMinCash">$122.4K</span></div>
+            <div class="metric-row"><span>Target buffer</span><span id="mBufTarget">$60K</span></div>
+            <div class="metric-row"><span>Buffer above target</span><span class="v pos" id="mBuffer">+$62.4K</span></div>
+            <div class="metric-row"><span>Modeled shortfall</span><span id="mShortfall">$17.6K</span></div>
+            <div class="metric-row"><span>Coverage</span><span class="v" id="mCoverage">227%</span></div>
+            <div class="metric-row"><span>Illustrative cost</span><span class="v" id="mCost">$880</span></div>
+          </div>
+          <div class="note" id="whyAmt" style="margin-top:14px;"></div>
+          <button class="btn btn-primary" style="margin-top:16px;" onclick="openModal()">Preview illustrative offer</button>
+        </div>
+        <div class="chatbox">
+          <h3 style="margin-top:0;font-size:14px;">Ask Capital Intelligence</h3>
+          <div class="chatlog" id="chatlog"></div>
+          <div class="suggest">
+            <button onclick="ask('Why do I need funding?')">Why do I need funding?</button>
+            <button onclick="ask('How much should I borrow?')">How much should I borrow?</button>
+            <button onclick="ask('What happens if I borrow more?')">What if I borrow more?</button>
+          </div>
+          <div class="chatinput">
+            <input id="chatIn" placeholder="Ask about your funding plan…" onkeydown="if(event.key==='Enter'){ask(document.getElementById('chatIn').value)}">
+            <button class="btn btn-primary" onclick="ask(document.getElementById('chatIn').value)">Ask</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ASSUMPTIONS -->
+    <section class="screen" id="s3">
+      <h1>Assumptions & product principles</h1>
+      <p class="lede">What this prototype represents — and what a production system would require.</p>
+      <div class="assump-grid">
+        <div class="card"><h3>Customer</h3><p style="font-size:13px;color:var(--ink-soft);margin:0;">Fictional SME — Northstar Commerce, cross-border B2B ecommerce/wholesale.</p></div>
+        <div class="card"><h3>Modes</h3><p style="font-size:13px;color:var(--ink-soft);margin:0;">First-party = direct Airwallex relationship. Embedded = same underwriting logic surfaced inside a partner platform (e.g. ShipHub Commerce), using partner-sourced data instead of an existing Airwallex account.</p></div>
+        <div class="card"><h3>Data</h3><p style="font-size:13px;color:var(--ink-soft);margin:0;">All financial figures are synthetic and user-editable for demo purposes.</p></div>
+        <div class="card"><h3>Financing</h3><p style="font-size:13px;color:var(--ink-soft);margin:0;">All limits, rates and fees shown are illustrative.</p></div>
+        <div class="card"><h3>AI layer</h3><p style="font-size:13px;color:var(--ink-soft);margin:0;">"Ask Capital Intelligence" uses deterministic demo logic, not a live model.</p></div>
+        <div class="card"><h3>Credit decision</h3><p style="font-size:13px;color:var(--ink-soft);margin:0;">Not performed by this prototype.</p></div>
+      </div>
+      <div class="card">
+        <h3>A production system would also require</h3>
+        <ul class="prodlist">
+          <li>Customer consent (and, for embedded, partner data-sharing agreements)</li><li>Transaction/account data</li><li>Underwriting</li><li>Risk policy</li>
+          <li>Compliance checks per market</li><li>Lender/capital-provider integrations</li><li>Partner revenue-share/referral economics (embedded)</li><li>Pricing</li>
+          <li>Servicing</li><li>Repayment management</li><li>Regulatory controls</li>
+        </ul>
+      </div>
+      <h1 style="font-size:16px;margin-top:22px;">Product principles</h1>
+      <div class="principle">"Growth cannot be separated from risk."</div>
+      <div class="principle">"Give customers transparency before asking them to apply."</div>
+      <div class="principle">"Centralize reusable lending capabilities while keeping market-specific policy and compliance modular."</div>
+      <div class="principle">"Optimize for risk-adjusted customer and business value, not application volume alone."</div>
+    </section>
+  </main>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal">
+    <h3>Illustrative financing preview</h3>
+    <div class="metric-row"><span>Amount</span><span id="mo-amt">$40,000</span></div>
+    <div class="metric-row"><span>Financing type</span><span id="mo-type">Invoice financing</span></div>
+    <div class="metric-row"><span>Eligible receivables</span><span id="mo-elig">$68,000</span></div>
+    <div class="metric-row"><span>Illustrative advance</span><span>80%</span></div>
+    <div class="metric-row"><span>Illustrative fee</span><span id="mo-fee">2.2%</span></div>
+    <div class="metric-row"><span>Repayment</span><span>When invoices settle</span></div>
+    <div class="metric-row"><span>Projected cash buffer</span><span id="mo-buf">$122.4K</span></div>
+    <div class="disc">This is a portfolio prototype using assumed data. It is not a real financing offer, credit approval, pricing quote, or eligibility decision.</div>
+    <div id="modalNext" style="display:none;font-size:12.5px;color:var(--accent);margin-bottom:10px;">Application flow would begin here.</div>
+    <button class="btn btn-primary" onclick="continueModal()">Continue</button>
+    <button class="btn btn-ghost" style="margin-left:8px;" onclick="closeModal()">Back to simulator</button>
+  </div>
+</div>
+
+<script>
+const days=['Today','Day 7','Day 14','Day 21','Day 28','Day 35','Day 42'];
+const shapeDeltas=[0,-5,-13,-33,-40,-36,-28]; // $K relative to day0, original reference shape
+const origNet=121400-95200; // reference net outflow used to derive the shape
+let mode='firstparty';
+
+function biz(){
+  return {
+    cash:+document.getElementById('in_cash').value||0,
+    inflow:+document.getElementById('in_inflow').value||0,
+    outflow:+document.getElementById('in_outflow').value||0,
+    buffer:+document.getElementById('in_buffer').value||0,
+    supplier:+document.getElementById('in_supplier').value||0,
+    payroll:+document.getElementById('in_payroll').value||0,
+    opex:+document.getElementById('in_opex').value||0,
+    invoices:+document.getElementById('in_invoices').value||0,
+  };
+}
+function fmtK(n){return '$'+(n/1000).toFixed(1)+'K';}
+function fmtK0(n){return '$'+Math.round(n/1000)+'K';}
+
+function computeForecast(b){
+  const net=b.outflow-b.inflow;
+  const scale=origNet!==0? net/origNet : 1;
+  const cashK=b.cash/1000;
+  return shapeDeltas.map(d=>cashK+d*scale);
+}
+
+function drawChart(b, forecast, finAmount){
+  const amtK=finAmount/1000;
+  const withFin=forecast.map(v=>v+amtK);
+  const bufK=b.buffer/1000;
+  const max=Math.max(140,bufK,...withFin,...forecast)+10, min=Math.min(0,...forecast)-10;
+  const x=i=>40+i*(560-40)/6, y=v=>200-((v-min)/(max-min))*180;
+  const path=arr=>arr.map((v,i)=>`${i===0?'M':'L'}${x(i)},${y(v)}`).join(' ');
+  const bufY=y(bufK);
+  let svg=`<line x1="40" y1="${bufY}" x2="560" y2="${bufY}" stroke="var(--ink-soft)" stroke-dasharray="4,4" stroke-width="1"/>`;
+  svg+=`<path d="${path(forecast)}" fill="none" stroke="var(--red)" stroke-width="2.5"/>`;
+  svg+=`<path d="${path(withFin)}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+  forecast.forEach((v,i)=>{ svg+=`<circle cx="${x(i)}" cy="${y(v)}" r="3" fill="var(--red)"/>`; svg+=`<text x="${x(i)}" y="215" text-anchor="middle">${days[i]}</text>`; });
+  document.getElementById('chart').innerHTML=svg;
+  document.getElementById('chartTag').textContent=`With ${fmtK0(finAmount)} financing`;
+}
+
+let lastShortfall=0;
+
+function recalcAll(){
+  const b=biz();
+  const forecast=computeForecast(b);
+  const minCash=Math.min(...forecast)*1000;
+  const dipIdx=forecast.indexOf(Math.min(...forecast));
+  const shortfall=Math.max(0,b.buffer-minCash);
+  lastShortfall=shortfall;
+
+  document.getElementById('kAvail').textContent=fmtK(b.cash);
+  document.getElementById('kIn').textContent=fmtK(b.inflow);
+  document.getElementById('kOut').textContent=fmtK(b.outflow);
+  document.getElementById('kMin').textContent=fmtK(minCash);
+  document.getElementById('kMin').style.color=minCash<b.buffer?'var(--red)':'var(--green)';
+  document.getElementById('kBuf').textContent=fmtK0(b.buffer);
+
+  const alertBox=document.getElementById('alertBox');
+  if(shortfall>0){
+    alertBox.classList.remove('ok');
+    document.getElementById('alertH').textContent=`Potential cash-flow pressure in ${dipIdx*7} days`;
+    document.getElementById('alertP').textContent=`Your forecast dips approximately ${fmtK(shortfall)} below your target cash buffer. The largest driver is a cluster of supplier payments occurring before several customer invoices are expected to settle.`;
+  }else{
+    alertBox.classList.add('ok');
+    document.getElementById('alertH').textContent='No funding gap projected';
+    document.getElementById('alertP').textContent=`Your projected minimum cash stays at or above your ${fmtK0(b.buffer)} target buffer across the next 42 days under these numbers.`;
+  }
+
+  drawChart(b, forecast, +document.getElementById('amtSlider').value||0);
+
+  const drivers=[['Supplier payments',b.supplier],['Payroll & contractors',b.payroll],['Operating expenses',b.opex],['Customer invoices pending',b.invoices]];
+  const maxD=Math.max(...drivers.map(d=>d[1]),1);
+  document.getElementById('driversBox').innerHTML=drivers.map(([label,v])=>
+    `<div class="driver"><div class="row1"><span>${label}</span><b>${fmtK0(v)}</b></div><div class="bar-track"><i style="width:${Math.round(v/maxD*100)}%"></i></div></div>`).join('');
+
+  const invoiceCap=b.invoices*0.8;
+  document.getElementById('opt1amt').textContent='Up to '+fmtK0(invoiceCap);
+  document.getElementById('opt1basis').textContent='80% of '+fmtK0(b.invoices)+' eligible';
+  const termAmt=Math.max(20000, Math.round((shortfall*3)/5000)*5000 || 50000);
+  document.getElementById('opt3amt').textContent=fmtK0(termAmt)+' example';
+  document.getElementById('opt3pay').textContent='$'+(Math.round(termAmt/12*1.08/100)/10)+'K / mo';
+  document.getElementById('opt2draw').textContent=fmtK0(Math.min(75000,Math.max(20000,shortfall*2)));
+
+  recalcSim();
+}
+
+function recalcSim(){
+  const b=biz();
+  const amount=+document.getElementById('amtSlider').value;
+  const type=document.getElementById('ftype').value;
+  document.getElementById('amtDisplay').textContent=fmtK0(amount);
+  const forecast=computeForecast(b);
+  const minCash=Math.min(...forecast)*1000;
+  const projected=minCash+amount;
+  const buffer=projected-b.buffer;
+  const shortfall=lastShortfall||0;
+  const coverage=shortfall>0? Math.round(amount/shortfall*100) : (amount>0?999:0);
+  document.getElementById('mMinCash').textContent=fmtK(projected);
+  document.getElementById('mBufTarget').textContent=fmtK0(b.buffer);
+  document.getElementById('mShortfall').textContent=fmtK(shortfall);
+  const bEl=document.getElementById('mBuffer');
+  bEl.textContent=(buffer>=0?'+':'')+fmtK(buffer); bEl.className='v '+(buffer>=0?'pos':'warn');
+  document.getElementById('mCoverage').textContent=(coverage>500?'500+':coverage)+'%';
+  let cost,costLabel;
+  if(type==='invoice'){cost=amount*0.022; costLabel='$'+cost.toFixed(0)+' (2.2%, one-time)';}
+  else if(type==='credit'){cost=amount*0.018; costLabel='$'+cost.toFixed(0)+'/mo (1.8%, illustrative)';}
+  else {cost=(amount/12)*1.08; costLabel='~$'+cost.toFixed(0)+'/mo (illustrative)';}
+  document.getElementById('mCost').textContent=costLabel;
+  let why;
+  if(shortfall<=0) why="No shortfall is currently modeled — this amount is purely additional headroom.";
+  else if(amount<shortfall) why="This amount partially covers the modeled shortfall, but the business would still fall below its target cash buffer.";
+  else if(amount<=shortfall*3+20000) why="This amount covers the modeled shortfall and restores the business above its target cash buffer.";
+  else why="This provides additional liquidity headroom but may create unnecessary financing cost or repayment exposure.";
+  document.getElementById('whyAmt').innerHTML='<b>Why this amount?</b><br>'+why;
+  drawChart(b, forecast, amount);
+}
+
+function simulateFrom(type){
+  const b=biz();
+  const invoiceCap=b.invoices*0.8;
+  const amt=type==='invoice'?invoiceCap:type==='credit'?Math.min(75000,Math.max(20000,lastShortfall*2)):Math.max(20000,Math.round((lastShortfall*3)/5000)*5000||50000);
+  document.getElementById('ftype').value=type;
+  document.getElementById('amtSlider').max=Math.max(75000,Math.ceil(amt/1000)*1000);
+  document.getElementById('amtSlider').value=Math.min(amt,+document.getElementById('amtSlider').max);
+  go(2); recalcSim();
+}
+
+const answers={
+  'why do i need funding?':()=>`The forecast shows a ${fmtK(lastShortfall)} shortfall versus your target cash buffer. The primary driver is a timing mismatch between your supplier/payroll/opex outflows and customer invoices that are still pending.`,
+  'how much should i borrow?':()=>`The modeled minimum need is approximately ${fmtK(lastShortfall)}. A larger amount provides additional headroom for forecast variance. In a production system, the suggested amount would also consider repayment capacity, risk limits, customer preferences, and applicable lending policies.`,
+  'what happens if i borrow more?':()=>`Increasing the amount raises your projected minimum cash position dollar-for-dollar, but also increases financing cost and, for a term loan, repayment exposure. Use the slider to see the effect in real time.`,
+};
+function ask(q){
+  if(!q||!q.trim())return;
+  const log=document.getElementById('chatlog');
+  log.innerHTML+=`<div class="msg q">${q}</div>`;
+  const key=q.trim().toLowerCase();
+  const a=answers[key]?answers[key]():"In a full version, this would be answered using your live forecast and financing selections. Try one of the suggested questions for a demo response.";
+  log.innerHTML+=`<div class="msg a">${a}</div>`;
+  log.scrollTop=log.scrollHeight;
+  document.getElementById('chatIn').value='';
+}
+
+function openModal(){
+  const b=biz();
+  const amount=+document.getElementById('amtSlider').value;
+  const type=document.getElementById('ftype').value;
+  const typeLabel={invoice:'Invoice financing',credit:'Credit line',term:'Term loan'}[type];
+  const forecast=computeForecast(b);
+  const minCash=Math.min(...forecast)*1000;
+  document.getElementById('mo-amt').textContent='$'+amount.toLocaleString();
+  document.getElementById('mo-type').textContent=typeLabel;
+  document.getElementById('mo-elig').textContent='$'+b.invoices.toLocaleString();
+  document.getElementById('mo-fee').textContent=type==='invoice'?'2.2%':type==='credit'?'1.8%/mo':'~8% total, illustrative';
+  document.getElementById('mo-buf').textContent=fmtK(minCash+amount);
+  document.getElementById('modalNext').style.display='none';
+  document.getElementById('modalBg').classList.add('show');
+}
+function closeModal(){document.getElementById('modalBg').classList.remove('show');}
+function continueModal(){document.getElementById('modalNext').style.display='block';}
+
+function go(i){
+  document.querySelectorAll('.screen').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+  document.querySelectorAll('.navlist button').forEach((el,idx)=>el.classList.toggle('active',idx===i));
+  if(i===0) recalcAll();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function setMode(m){
+  mode=m;
+  document.body.classList.toggle('embedded', m==='embedded');
+  document.getElementById('btnFP').classList.toggle('active', m==='firstparty');
+  document.getElementById('btnEM').classList.toggle('active', m==='embedded');
+  if(m==='embedded'){
+    document.getElementById('brandLbl').innerHTML='ShipHub <span>Commerce</span>';
+    document.getElementById('taglineLbl').textContent="Financing surfaced inside the platform Northstar already uses — no separate Airwallex account needed.";
+    document.getElementById('greetLbl').textContent='Northstar Commerce — Invoicing & Cash Flow';
+    document.getElementById('finLede').textContent="These options are evaluated using data connected from ShipHub Commerce, and surfaced here rather than in a separate Airwallex app.";
+  }else{
+    document.getElementById('brandLbl').innerHTML='Capital <span>Intelligence</span>';
+    document.getElementById('taglineLbl').textContent="Know when you'll need capital, how much, and which option fits.";
+    document.getElementById('greetLbl').textContent='Good afternoon, Northstar Commerce';
+    document.getElementById('finLede').textContent='Based on your current forecast, these options can be evaluated against your expected cash-flow timing.';
+  }
+  recalcAll();
+}
+
+recalcAll();
+</script>
+</body>
+</html>

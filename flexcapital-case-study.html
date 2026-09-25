@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>FlexCapital — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F5F4EF;--ink:#1C2321;--ink-soft:#5B655F;--pine:#2F5C48;--pine-soft:#E7EFE9;--line:#DAD6CB;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;padding:40px 20px 70px;line-height:1.6;}
+.wrap{max-width:680px;margin:0 auto;}
+a.back{font-size:12.5px;color:var(--pine);text-decoration:none;}
+h1{font-family:'Source Serif 4',serif;font-size:24px;margin:14px 0 2px;}
+h2{font-size:16px;margin:28px 0 8px;color:var(--pine);}
+p{font-size:14px;color:var(--ink);margin:0 0 10px;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin:10px 0 4px;}
+th{text-align:left;background:var(--pine-soft);padding:8px 10px;font-size:12px;}
+td{padding:8px 10px;border-bottom:1px solid var(--line);}
+.risk{background:#fff;border:1px solid var(--line);border-radius:10px;padding:4px 14px;margin:8px 0;}
+hr{border:none;border-top:1px solid var(--line);margin:24px 0;}
+.foot{font-size:12px;color:var(--ink-soft);font-style:italic;}
+</style></head><body><div class="wrap">
+<a class="back" href="index.html">← Back to case studies</a>
+<h1>FlexCapital: Working Capital for Thin-File Merchants</h1>
+<p class="foot">A product concept for Airwallex Lending — case study</p>
+<hr>
+<h2>Problem</h2>
+<p>Two gaps surfaced from customer reviews and public reporting on Airwallex's lending experience: (1) <b>thin-file exclusion</b> — standard eligibility requires 90+ days of history, excluding fast-growing newer businesses that most need capital; (2) <b>opaque cost of capital</b> — lenders often disclose only an APR range after underwriting, not the true total repayment, eroding trust already strained by unexplained fund holds and slow support escalation.</p>
+<h2>Hypothesis</h2>
+<p>If eligibility runs on <b>live cash-flow signal</b> (deposit consistency, repeat-customer rate, revenue trend, currency diversification) instead of <b>account tenure</b>, and the <b>full cost of capital is disclosed before acceptance</b>, Airwallex can extend credit to an excluded segment, differentiate on trust, and do this at acceptable risk — because Airwallex already has first-party visibility into the revenue an advance is repaid from.</p>
+<h2>Solution</h2>
+<table><tr><th>Stage</th><th>What it does</th></tr>
+<tr><td>Eligibility</td><td>Cash Flow Velocity Score (0–850) replaces the 90-day tenure gate</td></tr>
+<tr><td>Offer</td><td>Full total repayment figure and flat cost rate up front — no APR range</td></tr>
+<tr><td>Terms</td><td>Every material term on one screen</td></tr>
+<tr><td>Repayment</td><td>Daily holdback tied to real revenue, live dashboard, human escalation path</td></tr>
+<tr><td>Safeguards</td><td>Minimum floor + outside date bound the obligation once revenue stalls</td></tr></table>
+<h2>Why this is viable, not just merchant-friendly</h2>
+<p>Revenue-share repayment has no defined end if revenue drops — FlexCapital bounds it with layered mechanics: an <b>early-warning trigger</b> (40%+ WoW drop) prompting a specialist check-in; a <b>minimum weekly floor</b> once revenue stays low for 10+ days; an <b>outside date</b> converting any remaining balance to a fixed installment plan; <b>risk-based sizing at underwriting</b>, so volatile-revenue merchants get a smaller advance and higher floor from the start; and true business closure priced into the portfolio-level flat rate, the same mechanism any unsecured lender uses.</p>
+<h2>Success metrics</h2>
+<p>Approval rate among sub-90-day accounts (at a defined default-rate ceiling), time-to-funds, repayment completion rate vs. outside-date conversion rate, cost-of-capital comprehension (offer-screen drop-off as a proxy for trust), and support escalation rate/resolution time.</p>
+<h2>Key risks</h2>
+<div class="risk"><p><b>Revenue drops or stops</b> — mitigated by the early-warning trigger, floor, and outside date above.</p></div>
+<div class="risk"><p><b>Adverse selection</b> — volatile businesses seeking this specifically for its forgiveness — mitigated by Velocity Score sizing tied to consistency, not just growth.</p></div>
+<div class="risk"><p><b>Business closes before repayment</b> — priced into the portfolio-level flat rate; not solvable per-loan.</p></div>
+<div class="risk"><p><b>Gaming live-data underwriting</b> — mitigated by pulling score inputs from settled transaction data, not self-reported figures.</p></div>
+<hr>
+<p class="foot">Prototype and case study built as a product management portfolio exercise, not an Airwallex work product.</p>
+</div></body></html>
